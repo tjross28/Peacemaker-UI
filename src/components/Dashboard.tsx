@@ -1,4 +1,4 @@
-import { Heart, Upload, BookOpen, User, FileText, Calendar, AlertCircle, LogOut, Trash2 } from 'lucide-react';
+import { Heart, Upload, BookOpen, User, FileText, Calendar, AlertCircle, LogOut, Trash2, Music } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Screen, Report } from '../App';
@@ -25,6 +25,15 @@ export function Dashboard({
     .flatMap(r => r.processedTerms.filter(t => t.category === 'alert'))
     .slice(0, 2);
 
+  // Handler to clear all reports
+  const handleClearAll = () => {
+    if (reports.length === 0) return;
+    const confirmed = confirm("Are you sure you want to delete all reports?");
+    if (confirmed) {
+      reports.forEach(r => onDeleteReport(r.id));
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-20">
       {/* Header */}
@@ -36,7 +45,7 @@ export function Dashboard({
             </div>
             <div>
               <h1 className="text-white">PeaceMaker</h1>
-              <p className="text-white/80">Welcome back</p>
+              <p className="text-white/80">Welcome back, {userName}</p>
             </div>
           </div>
           <button
@@ -86,6 +95,21 @@ export function Dashboard({
               <p className="text-[#333]">Dictionary</p>
             </div>
           </Card>
+
+          <Card 
+            className="p-4 bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-md border-0 cursor-pointer hover:shadow-lg hover:scale-105 transition-all col-span-2"
+            onClick={() => onNavigate('learn')}
+          >
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                <Music className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-left">
+                <p className="text-white">Learn with Music</p>
+                <p className="text-white/80 text-sm">Match terms & hear jingles!</p>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Alerts Section */}
@@ -113,9 +137,21 @@ export function Dashboard({
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-[#333]">Your Reports</h3>
             {reports.length > 0 && (
-              <button className="text-[#0066CC]">
-                View All
-              </button>
+              <div className="flex gap-4">
+                <button
+                  onClick={handleClearAll}
+                  className="flex items-center gap-1 text-red-600 hover:text-red-700"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clear All
+                </button>
+                <button
+                  onClick={() => onNavigate('reports')}
+                  className="text-[#0066CC] hover:underline"
+                >
+                  View All
+                </button>
+              </div>
             )}
           </div>
 

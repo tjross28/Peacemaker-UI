@@ -5,8 +5,9 @@ import { UploadReport } from './components/UploadReport';
 import { ReportView } from './components/ReportView';
 import { MedicalDictionary } from './components/MedicalDictionary';
 import { ProfileSettings } from './components/ProfileSettings';
+import { LearnWithMusic } from './components/LearnWithMusic';
 
-export type Screen = 'login' | 'dashboard' | 'upload' | 'report' | 'dictionary' | 'profile';
+export type Screen = 'login' | 'dashboard' | 'upload' | 'report' | 'dictionary' | 'profile' | 'learn';
 
 export interface Report {
   id: string;
@@ -120,6 +121,12 @@ export default function App() {
           userName={currentUser}
           onBack={() => setCurrentScreen('dashboard')}
           onLogout={handleLogout}
+        />
+      )}
+      
+      {currentScreen === 'learn' && (
+        <LearnWithMusic
+          onBack={() => setCurrentScreen('dashboard')}
         />
       )}
     </div>
